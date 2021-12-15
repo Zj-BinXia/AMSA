@@ -25,7 +25,7 @@ datasets:
 
     use_shuffle: true
     n_workers: 6  # per GPU
-    batch_size: 3
+    batch_size: 9
     dataset_enlarge_ratio: 1000
 
   val:
