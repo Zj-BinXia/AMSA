@@ -48,7 +48,7 @@ network_g:
   groups: 8
 network_map:
   type: CorrespondenceGenerationArch
-  patch_size: 9
+  patch_size: 3
   stride: 1
   vgg_layer_list: ['relu1_1', 'relu2_1', 'relu3_1']
   vgg_type: 'vgg19'
