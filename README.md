@@ -96,7 +96,7 @@ All logging files in the training process, *e.g.*, log message, checkpoints, and
 
 ## Results
 
-![](AMSA/figs/quan.jpg)
+![](AMSA/figs/quan.jpg) \\
 
 ![](qual.jpg)
 
