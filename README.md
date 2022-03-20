@@ -9,6 +9,9 @@ The code framework is mainly modified from [BasicSR](https://github.com/xinntao/
 [[Paper](https://arxiv.org/abs/2201.04358)]
 [[Project Page](https://github.com/Zj-BinXia/AMSA)]
 
+## Overview
+![](AMSA/figs/process.jpg)
+
 ## Dependencies and Installation
 
 - Python >= 3.7
