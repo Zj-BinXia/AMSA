@@ -1,8 +1,14 @@
-Paper : https://arxiv.org/pdf/2201.04358.pdf
 # AMSA
 This project is the official implementation of 'Coarse-to-Fine Embedded PatchMatch and Multi-Scale Dynamic Aggregation for Reference-based Super-Resolution', AAAI22
 
 The code framework is mainly modified from [BasicSR](https://github.com/xinntao/BasicSR) and [MMSR](https://github.com/open-mmlab/mmediting) (Now reorganized as MMEditing). Please refer to the original repo for more usage and documents.
+
+## Dependencies and Installation
+
+- Python == 3.8
+- PyTorch == 1.4
+- CUDA 10.0 
+- GCC 5.4.0
 
 1. Install Dependencies
 
