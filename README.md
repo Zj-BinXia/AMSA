@@ -94,9 +94,11 @@ All logging files in the training process, *e.g.*, log message, checkpoints, and
    python mmsr/train.py -opt "options/train/stage3_restoration_mse.yml"
    ```
 
-## Visual Results
+## Results
 
-![result](assets/visual_comp.png)
+![](AMSA/figs/quan.jpg)
+
+![](qual.jpg)
 
 ## Citation
 
