@@ -25,7 +25,7 @@ datasets:
 
     use_shuffle: true
     n_workers: 6  # per GPU
-    batch_size: 9
+    batch_size: 3
     dataset_enlarge_ratio: 1000
 
   val:
@@ -75,11 +75,11 @@ train:
   weight_decay_d: 0
   beta_d: [0.9, 0.999]
   lr_scheme: MultiStepLR
-
-  niter: 255000
+  
+  niter: 765000
   warmup_iter: -1  # no warm up
   net_g_pretrain_steps: 0
-  lr_steps: [72545, 211040]
+  lr_steps: [217635, 633120]
   lr_gamma: 0.1
 
   pixel_criterion: L1Loss
