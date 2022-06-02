@@ -198,15 +198,6 @@ class RefRestorationModel(SRModel):
         tp = [self.img_ref, self.img_ref1, self.img_ref2, self.img_ref3, self.img_ref4]
         match_img_in = self.net_extractor(self.match_img_in, is_match=True)
         _, _, lh, lw = self.img_in_lq.shape
-        img_in_lqx2 = F.interpolate(self.img_in_lq, size=(lh // 2, lw // 2), mode='bicubic')
-        img_in_lqx4 = F.interpolate(img_in_lqx2, size=(lh // 4, lw // 4), mode='bicubic')
-        img_in_lqx8 = F.interpolate(img_in_lqx4, size=(lh // 8, lw // 8), mode='bicubic')
-        img_in_lqx2 = F.interpolate(img_in_lqx2, size=(lh // 2 * self.scale, lw // 2 * self.scale), mode='bicubic')
-        img_in_lqx2 = self.net_extractor(img_in_lqx2, is_match=True)
-        img_in_lqx4 = F.interpolate(img_in_lqx4, size=(lh // 4 * self.scale, lw // 4 * self.scale), mode='bicubic')
-        img_in_lqx4 = self.net_extractor(img_in_lqx4, is_match=True)
-        img_in_lqx8 = F.interpolate(img_in_lqx8, size=(lh // 8 * self.scale, lw // 8 * self.scale), mode='bicubic')
-        img_in_lqx8 = self.net_extractor(img_in_lqx8, is_match=True)
 
         self.pre_offset_list = []
         self.img_ref_list = []
@@ -214,12 +205,7 @@ class RefRestorationModel(SRModel):
         for i in range(len(tp)):
             img_ref = tp[i]
             _, _, rh, rw = img_ref.shape
-            img_ref_lqx2 = F.interpolate(img_ref, size=(rh // 2, rw // 2), mode='bicubic')
-            img_ref_lqx4 = F.interpolate(img_ref_lqx2, size=(rh // 4, rw // 4), mode='bicubic')
-            img_ref_lqx8 = F.interpolate(img_ref_lqx4, size=(rh // 8, rw // 8), mode='bicubic')
-            self.features = self.net_extractor(match_img_in, img_ref, img_in_lqx2, img_in_lqx4
-                                               , img_in_lqx8, img_ref_lqx2, img_ref_lqx4,
-                                               img_ref_lqx8, is_match=False)
+            self.features = self.net_extractor(match_img_in, img_ref, is_match=False)
             pre_offset, img_ref_feat, max_val = self.net_map(
                 self.features, self.img_ref)
             self.pre_offset_list.append(pre_offset)
@@ -230,17 +216,21 @@ class RefRestorationModel(SRModel):
 
         if step <= self.net_g_pretrain_steps:
             # pretrain the net_g with pixel Loss
-            self.optimizer_g.zero_grad()
+            if step%3==1:
+                self.optimizer_g.zero_grad()
             l_pix = self.cri_pix(self.output, self.gt)
             l_pix.backward()
-            self.optimizer_g.step()
+            if step % 3 == 0:
+                self.optimizer_g.step()
 
             # set log
             self.log_dict['l_pix'] = l_pix.item()
         else:
+            self.output = self.output.contiguous()
             if self.net_d:
                 # train net_d
-                self.optimizer_d.zero_grad()
+                if step % 3 == 1:
+                    self.optimizer_d.zero_grad()
                 for p in self.net_d.parameters():
                     p.requires_grad = True
 
@@ -261,10 +251,12 @@ class RefRestorationModel(SRModel):
                     self.log_dict['l_grad_penalty'] = l_grad_penalty.item()
                     l_d_total += l_grad_penalty
                 l_d_total.backward()
-                self.optimizer_d.step()
+                if step % 3 == 0:
+                    self.optimizer_d.step()
 
             # train net_g
-            self.optimizer_g.zero_grad()
+            if step % 3 == 1:
+                self.optimizer_g.zero_grad()
             if self.net_d:
                 for p in self.net_d.parameters():
                     p.requires_grad = False
@@ -298,7 +290,8 @@ class RefRestorationModel(SRModel):
                     self.log_dict['l_g_gan'] = l_g_gan.item()
 
                 l_g_total.backward()
-                self.optimizer_g.step()
+                if step % 3 == 0:
+                    self.optimizer_g.step()
 
     def test(self):
         self.net_g.eval()
