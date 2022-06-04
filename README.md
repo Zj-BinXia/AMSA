@@ -47,7 +47,7 @@ Please refer to [Datasets.md](datasets/DATASETS.md) for pre-processing and more 
 ## Get Started
 
 ### Pretrained Models
-Downloading the pretrained models from GogleDrive (TODO) and put them under `experiments/pretrained_models folder`.
+Downloading the pretrained models from [GoogleDrive](https://drive.google.com/drive/folders/1XWv1O8l3-_VBWXRoPVV183ddYS31u-2_?usp=sharing) and put them under `experiments/pretrained_models folder`.
 
 ### Test
 
