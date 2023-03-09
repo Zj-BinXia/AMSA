@@ -56,14 +56,14 @@ We provide quick test code with the pretrained model.
 1. Modify the paths to dataset and pretrained model in the following yaml files for configuration.
 
     ```bash
-    ./options/test/test_C2_matching.yml
-    ./options/test/test_C2_matching_mse.yml
+    ./options/test/test_AMSA.yml
+    ./options/test/test_AMSA_mse.yml
     ```
 
 1. Run test code for models trained using **GAN loss**.
 
     ```bash
-    python mmsr/test.py -opt "options/test/test_C2_matching.yml"
+    python mmsr/test.py -opt "options/test/test_AMSA.yml"
     ```
 
    Check out the results in `./results`.
@@ -71,7 +71,7 @@ We provide quick test code with the pretrained model.
 1. Run test code for models trained using only **reconstruction loss**.
 
     ```bash
-    python mmsr/test.py -opt "options/test/test_C2_matching_mse.yml"
+    python mmsr/test.py -opt "options/test/test_AMSA_mse.yml"
     ```
 
    Check out the results in in `./results`
